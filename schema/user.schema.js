@@ -1,4 +1,4 @@
-const { object, string, number, array, ref } = require('yup');
+const { object, string, ref } = require('yup');
 
 const userSchema = {
     username: string()
@@ -34,38 +34,19 @@ const userSchema = {
     last_name: string()
         .matches(/^[a-zA-Z]*$/, 'First name allowed only English Alphabets.')
         .min(3, 'Last name must be at least 3 characters long.')
-        .max(255, 'Last name not more than 255 characters long.'),
-    age: number()
-        .typeError('Age must be a number')
-        .integer('Age must be an integer')
-        .min(7, 'Must be 7 years old or above'),
-    phone_number: string()
-        .matches(/^[0-9]+$/, 'Phone number Allowed only numbers.')
-        .max(11, 'Phone number not more than 11 digits.'),
-    address: array().of(
-        object().shape({
-            road_number: string().required('Road number is required.'),
-            house_number: string().required('House number is required.'),
-            zip_code: string().required('Zip code is required.'),
-            district: string().required('District is required'),
-            country: string().required('Country is required'),
-        })
-    ),
+        .max(255, 'Last name not more than 255 characters long.')
 };
 
 const registerSchema = object().shape({
     username: userSchema.username,
     email: userSchema.email,
     password: userSchema.password,
-    confirm_password: userSchema.confirm_password,
+    confirm_password: userSchema.confirm_password
 });
 
 const profileSchema = object().shape({
     first_name: userSchema.first_name,
-    last_name: userSchema.last_name,
-    age: userSchema.age,
-    phone_number: userSchema.phone_number,
-    address: userSchema.address,
+    last_name: userSchema.last_name
 });
 
 module.exports = { registerSchema, profileSchema };

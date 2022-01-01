@@ -10,18 +10,34 @@ const controller = require('../controllers/product.controllers');
 
 const validation = require('../middleware/validation');
 
-router.get('/', controller.getProducts);
+router.get('/api/products/', controller.getProducts);
 
-router.get('/:id', controller.getProduct);
+router.get('/api/products/:id', controller.getProduct);
 
-router.post('/', validation(productCreateSchema), controller.createProduct);
+router.post(
+    '/api/products/',
+    validation(productCreateSchema),
+    controller.createProduct
+);
 
-router.put('/:id', validation(productCreateSchema), controller.updateProduct);
+router.put(
+    '/api/products/:id',
+    validation(productCreateSchema),
+    controller.updateProduct
+);
 
-router.patch('/:id', validation(productUpdateSchema), controller.updateProductQuantity);
+router.patch(
+    '/api/products/:id',
+    validation(productUpdateSchema),
+    controller.updateProductQuantity
+);
 
-router.delete('/:id', controller.deleteProduct);
+router.delete('/api/products/:id', controller.deleteProduct);
 
-router.patch('/rating/:id', validation(productUpdateSchema), controller.setRating);
+router.patch(
+    '/api/products/rating/:id',
+    validation(productUpdateSchema),
+    controller.setRating
+);
 
 module.exports = router;

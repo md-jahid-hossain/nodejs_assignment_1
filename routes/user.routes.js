@@ -7,16 +7,20 @@ const controller = require('../controllers/user.controllers');
 
 const { registerSchema, profileSchema } = require('../schema/user.schema');
 
-router.get('/', controller.getUsers);
+router.get('/api/users/', controller.getUsers);
 
-router.get('/:id', controller.getUser);
+router.get('/api/users/:id', controller.getUser);
 
-router.post('/', validation(registerSchema), controller.createUser);
+router.post('/api/users/', validation(registerSchema), controller.createUser);
 
-router.put('/:id', validation(profileSchema), controller.updateUser);
+router.put('/api/users/:id', validation(profileSchema), controller.updateUser);
 
-router.patch('/:id', validation(profileSchema), controller.updateUserPartially);
+router.patch(
+    '/api/users/:id',
+    validation(profileSchema),
+    controller.updateUserPartially
+);
 
-router.delete('/:id', controller.deleteUser);
+router.delete('/api/users/:id', controller.deleteUser);
 
 module.exports = router;

@@ -1,8 +1,14 @@
-const { User } = require('../models/db.model');
+const UserType = require("../models/user-types.model");
+const User = require("../models/user.model");
 
 const getUsers = async (req, res) => {
     try {
-        const users = await User.findAll();
+        const users = await User.findAll({
+            include: [{
+                model: UserType,
+                as: 'user_types'
+            }]
+        });
 
         res.send(users);
     } catch (error) {
@@ -26,22 +32,21 @@ const getUser = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
-    const { username, email, password } = req.body;
+    const { username, email, password, userTypeId } = req.body;
 
     try {
         const isUsernameExist = await User.findOne({ where: { username } });
         if (isUsernameExist)
-            return res.status(400).send('Duplicate username. Try Another...');
+            return res.status(400).send('Duplicate username.');
 
-        const user = {
+        const user = await User.create({
             username,
             email,
             password,
-        };
+            user_type_id: userTypeId
+        });
 
-        const newUser = await User.create(user);
-
-        res.status(201).send(newUser);
+        res.status(201).send(user);
     } catch (error) {
         console.log(error);
         res.status(500).send('Internal server error.');
@@ -62,7 +67,7 @@ const updateUser = async (req, res) => {
                 last_name,
                 age,
                 phone_number,
-                address,
+                address
             },
             { where: { id } }
         );
@@ -117,5 +122,5 @@ module.exports = {
     createUser,
     updateUser,
     updateUserPartially,
-    deleteUser,
+    deleteUser
 };

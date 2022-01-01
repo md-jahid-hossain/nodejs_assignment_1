@@ -1,13 +1,12 @@
-const Product = (sequelize, Sequelize) => {
-    const { STRING, NUMBER, JSON } = Sequelize.DataTypes;
+const sequelize = require('./db.model');
+const { DataTypes } = require('sequelize');
 
-    return sequelize.define('products', {
-        title: { type: STRING, allowNull: false },
-        price: { type: NUMBER, allowNull: false },
-        category: { type: STRING, allowNull: false },
-        quantity: { type: NUMBER, allowNull: false },
-        rate: { type: JSON },
-    });
-};
+const Product = sequelize.define('products', {
+    title: { type: DataTypes.STRING(255), allowNull: false },
+    price: { type: DataTypes.NUMBER, allowNull: false },
+    category: { type: DataTypes.STRING(255), allowNull: false },
+    quantity: { type: DataTypes.NUMBER, allowNull: false },
+    rate: { type: DataTypes.STRING }
+});
 
 module.exports = Product;
